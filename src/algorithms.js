@@ -62,7 +62,10 @@ export const algorithms = [
       for (let i = 0; i < data.length - 1; i++) {
         if (data[i + 1] - data[i] > thresholdValue) {
           let peakIndex = i + 1;
-          for (let j = i + 1; j < data.length; j++) {
+          console.log("data", data);
+          console.log("stated at", peakIndex);
+          for (let j = i + 2; j < data.length; j++) {
+            console.log("went to", j);
             if (data[j] > data[peakIndex]) {
               peakIndex = j;
             } else {
