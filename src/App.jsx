@@ -65,7 +65,7 @@ const App = () => {
           algorithms={algorithms}
           onSelect={handleAlgorithmSelect}
         />
-        {selectedAlgorithm === 0 && (
+        {(selectedAlgorithm == 0 || selectedAlgorithm == 3) && (
           <div style={{ marginBottom: "20px" }}>
             <span>Threshold: {threshold}</span>
             <Slider
