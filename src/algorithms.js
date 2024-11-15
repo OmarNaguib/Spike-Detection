@@ -138,6 +138,9 @@ export const algorithms = [
         });
 
         switch (criteria) {
+          case "delta":
+            score = paddedData[index + 1] - paddedData[index];
+            break;
           case "absolute":
             score = paddedData[index + 1];
             break;
@@ -148,7 +151,7 @@ export const algorithms = [
             score = deltaPrev + deltaNext;
             break;
           default:
-            score = paddedData[index + 1];
+            score = paddedData[index + 1] - paddedData[index];
         }
 
         return { index, score };
