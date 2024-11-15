@@ -79,7 +79,10 @@ const App = () => {
           </div>
         )}
         {selectedAlgorithm == 4 && (
-          <Tabs defaultActiveKey="absolute" onChange={handleCriteriaChange}>
+          <Tabs defaultActiveKey="delta" onChange={handleCriteriaChange}>
+            <TabPane tab="Delta" key="delta">
+              Highest based on delta value
+            </TabPane>
             <TabPane tab="Absolute" key="absolute">
               Highest based on absolute value
             </TabPane>
