@@ -12,35 +12,89 @@ const { TabPane } = Tabs;
 const App = () => {
   const [selectedSeries, setSelectedSeries] = useState(dataSeries[0].data);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState(0);
-  const [threshold, setThreshold] = useState(0.2);
+  const [primaryThreshold, setPrimaryThreshold] = useState(0.2);
+  const [secondaryThreshold, setSecondaryThreshold] = useState(0.1);
+  const [minPercentage, setMinPercentage] = useState(0.2);
   const [criteria, setCriteria] = useState("absolute");
   const [spikes, setSpikes] = useState([]);
 
   const handleAlgorithmSelect = (key) => {
     const algorithm = algorithms[key];
     setSelectedAlgorithm(key);
-    setSpikes(algorithm.detect(selectedSeries, threshold, criteria));
+    setSpikes(
+      algorithm.detect({
+        data: selectedSeries,
+        primaryThreshold,
+        secondaryThreshold,
+        minPercentage,
+        criteria,
+      })
+    );
   };
 
   const handleSeriesChange = (value) => {
     const series = dataSeries.find((series) => series.name === value);
     setSelectedSeries(series.data);
     setSpikes(
-      algorithms[selectedAlgorithm].detect(series.data, threshold, criteria)
+      algorithms[selectedAlgorithm].detect({
+        data: series.data,
+        primaryThreshold,
+        secondaryThreshold,
+        minPercentage,
+        criteria,
+      })
     );
   };
 
-  const handleThresholdChange = (value) => {
-    setThreshold(value);
+  const handlePrimaryThresholdChange = (value) => {
+    setPrimaryThreshold(value);
     setSpikes(
-      algorithms[selectedAlgorithm].detect(selectedSeries, value, criteria)
+      algorithms[selectedAlgorithm].detect({
+        data: selectedSeries,
+        primaryThreshold: value,
+        secondaryThreshold,
+        minPercentage,
+        criteria,
+      })
+    );
+  };
+
+  const handleSecondaryThresholdChange = (value) => {
+    setSecondaryThreshold(value);
+    setSpikes(
+      algorithms[selectedAlgorithm].detect({
+        data: selectedSeries,
+        primaryThreshold,
+        secondaryThreshold: value,
+        minPercentage,
+        criteria,
+      })
+    );
+  };
+
+  const handleMinPercentageChange = (value) => {
+    setMinPercentage(value);
+    setSpikes(
+      algorithms[selectedAlgorithm].detect({
+        data: selectedSeries,
+        primaryThreshold,
+        secondaryThreshold,
+        minPercentage: value,
+        criteria,
+      })
     );
   };
 
   const handleCriteriaChange = (key) => {
     setCriteria(key);
     setSpikes(
-      algorithms[selectedAlgorithm].detect(selectedSeries, threshold, key)
+      algorithms[selectedAlgorithm].detect({
+        data: selectedSeries,
+        primaryThreshold,
+        secondaryThreshold,
+        minPercentage,
+        criteria: key,
+      })
     );
   };
 
@@ -65,21 +119,45 @@ const App = () => {
           algorithms={algorithms}
           onSelect={handleAlgorithmSelect}
         />
-        {(selectedAlgorithm == 0 || selectedAlgorithm == 3) && (
+        {(selectedAlgorithm == 0 ||
+          selectedAlgorithm == 3 ||
+          selectedAlgorithm == 5) && (
           <div style={{ marginBottom: "20px" }}>
-            <span>Threshold: {threshold}</span>
+            <span>Primary Threshold: {primaryThreshold}</span>
             <Slider
               min={0}
               max={1}
               step={0.01}
-              value={threshold}
-              onChange={handleThresholdChange}
+              value={primaryThreshold}
+              onChange={handlePrimaryThresholdChange}
               style={{ width: 200 }}
             />
+            {selectedAlgorithm == 5 && (
+              <>
+                <span>Secondary Threshold: {secondaryThreshold}</span>
+                <Slider
+                  min={0}
+                  max={1}
+                  step={0.01}
+                  value={secondaryThreshold}
+                  onChange={handleSecondaryThresholdChange}
+                  style={{ width: 200 }}
+                />
+                <span>Minimum Percentage: {minPercentage}</span>
+                <Slider
+                  min={0}
+                  max={1}
+                  step={0.01}
+                  value={minPercentage}
+                  onChange={handleMinPercentageChange}
+                  style={{ width: 200 }}
+                />
+              </>
+            )}
           </div>
         )}
         {selectedAlgorithm == 4 && (
-          <Tabs defaultActiveKey="delta" onChange={handleCriteriaChange}>
+          <Tabs defaultActiveKey="deltaSum" onChange={handleCriteriaChange}>
             <TabPane tab="Delta" key="delta">
               Highest based on delta value
             </TabPane>
