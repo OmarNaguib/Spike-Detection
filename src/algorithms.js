@@ -2,9 +2,9 @@ export const algorithms = [
   {
     name: "Delta/Max",
     description: "Detects spikes based on delta/max criteria.",
-    detect: ({ data, threshold = 0.2 }) => {
+    detect: ({ data, primaryThreshold = 0.2 }) => {
       const max = Math.max(...data);
-      const thresholdValue = threshold * max;
+      const thresholdValue = primaryThreshold * max;
       return data.reduce((spikes, point, index) => {
         if (index > 0 && point - data[index - 1] > thresholdValue) {
           spikes.push(index);
@@ -55,9 +55,9 @@ export const algorithms = [
     name: "Delta with Look Forward",
     description:
       "Detects spikes based on delta/max criteria and looks for the peak that follows the point of significant change.",
-    detect: ({ data, threshold = 0.2 }) => {
+    detect: ({ data, primaryThreshold = 0.2 }) => {
       const max = Math.max(...data);
-      const thresholdValue = threshold * max;
+      const thresholdValue = primaryThreshold * max;
       const spikes = [];
       for (let i = 0; i < data.length - 1; i++) {
         if (data[i + 1] - data[i] > thresholdValue) {
@@ -151,7 +151,7 @@ export const algorithms = [
   {
     name: "⭐ Delta Forward with Dual Thresholds",
     description:
-      "Detects spikes based on two delta/max criteria and uses a fallback if the first threshold detects less than a specified percentage of spikes.",
+      "Detects spikes based on two delta/max criteria and uses a fallback if the first primaryThreshold detects less than a specified percentage of spikes.",
     detect: ({
       data,
       primaryThreshold = 0.2,
