@@ -149,7 +149,7 @@ export const algorithms = [
     },
   },
   {
-    name: "⭐ Delta Forward with Dual Thresholds",
+    name: "Delta Forward with Dual Thresholds",
     description:
       "Detects spikes based on two delta/max criteria and uses a fallback if the first primaryThreshold detects less than a specified percentage of spikes.",
     detect: ({
