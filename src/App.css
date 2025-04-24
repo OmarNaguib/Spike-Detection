@@ -169,8 +169,9 @@
     margin-right: 4px !important;
   }
 }
-:where(.css-dev-only-do-not-override-vryruh).ant-card .ant-card-body {
-  padding: 0px;
+
+.ant-card .ant-card-body {
+  padding: 0px !important;
 }
 
 /* Make tabs wrap properly */
