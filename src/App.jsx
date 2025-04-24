@@ -1,13 +1,32 @@
 import React, { useState } from "react";
-import { Layout, Select, Slider, Tabs } from "antd";
+import {
+  Layout,
+  Select,
+  Slider,
+  Tabs,
+  Card,
+  Row,
+  Col,
+  Typography,
+  Divider,
+  Space,
+  Tag,
+} from "antd";
 import Chart from "./components/Chart";
 import AlgorithmTabs from "./components/AlgorithmTabs";
 import { algorithms } from "./algorithms";
 import { dataSeries } from "./dataSeries";
+import {
+  LineChartOutlined,
+  SettingOutlined,
+  BulbOutlined,
+  ThunderboltOutlined,
+} from "@ant-design/icons";
 
-const { Header, Content } = Layout;
+const { Header, Content, Footer } = Layout;
 const { Option } = Select;
 const { TabPane } = Tabs;
+const { Title, Text } = Typography;
 
 const App = () => {
   const [selectedSeries, setSelectedSeries] = useState(dataSeries[0].data);
@@ -99,82 +118,193 @@ const App = () => {
   };
 
   return (
-    <Layout>
-      <Header style={{ background: "none" }}>
-        <h1>Spike Detection Demo</h1>
+    <Layout
+      className="layout"
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #f9fafc 0%, #edf2f7 100%)",
+      }}
+    >
+      <Header
+        style={{
+          background: "white",
+          padding: "0 24px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+          position: "sticky",
+          top: 0,
+          zIndex: 1,
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <LineChartOutlined
+            style={{ fontSize: "24px", color: "#3498db", marginRight: "12px" }}
+          />
+          <Title level={3} style={{ margin: 0, color: "#2c3e50" }}>
+            Spike Detection <Tag color="#3498db">Demo</Tag>
+          </Title>
+        </div>
       </Header>
-      <Content style={{ padding: "20px" }}>
-        <Select
-          defaultValue={dataSeries[0].name}
-          style={{ width: 200, marginBottom: "20px" }}
-          onChange={handleSeriesChange}
-        >
-          {dataSeries.map((series) => (
-            <Option key={series.name} value={series.name}>
-              {series.name}
-            </Option>
-          ))}
-        </Select>
-        <AlgorithmTabs
-          algorithms={algorithms}
-          onSelect={handleAlgorithmSelect}
-        />
-        {(selectedAlgorithm == 0 ||
-          selectedAlgorithm == 3 ||
-          selectedAlgorithm == 5) && (
-          <div style={{ marginBottom: "20px" }}>
-            <span>Primary Threshold: {primaryThreshold}</span>
-            <Slider
-              min={0}
-              max={1}
-              step={0.01}
-              value={primaryThreshold}
-              onChange={handlePrimaryThresholdChange}
-              style={{ width: 200 }}
-            />
-            {selectedAlgorithm == 5 && (
-              <>
-                <span>Secondary Threshold: {secondaryThreshold}</span>
-                <Slider
-                  min={0}
-                  max={1}
-                  step={0.01}
-                  value={secondaryThreshold}
-                  onChange={handleSecondaryThresholdChange}
-                  style={{ width: 200 }}
+
+      <Content
+        style={{
+          padding: "24px",
+          maxWidth: "1200px",
+          margin: "0 auto",
+          width: "100%",
+        }}
+      >
+        <Card className="card">
+          <Row gutter={[24, 24]}>
+            <Col xs={24} sm={24} md={8} lg={6}>
+              <Space direction="vertical" style={{ width: "100%" }}>
+                <Title level={5} style={{ marginBottom: "16px" }}>
+                  <SettingOutlined /> Configuration
+                </Title>
+                <Text strong>Data Series</Text>
+                <Select
+                  defaultValue={dataSeries[0].name}
+                  style={{ width: "100%", marginBottom: "24px" }}
+                  onChange={handleSeriesChange}
+                >
+                  {dataSeries.map((series) => (
+                    <Option key={series.name} value={series.name}>
+                      {series.name}
+                    </Option>
+                  ))}
+                </Select>
+
+                {(selectedAlgorithm == 0 ||
+                  selectedAlgorithm == 3 ||
+                  selectedAlgorithm == 5) && (
+                  <div style={{ marginBottom: "24px" }}>
+                    <Text strong>Primary Threshold: {primaryThreshold}</Text>
+                    <Slider
+                      min={0}
+                      max={1}
+                      step={0.01}
+                      value={primaryThreshold}
+                      onChange={handlePrimaryThresholdChange}
+                      style={{ width: "100%" }}
+                      trackStyle={{ backgroundColor: "#3498db" }}
+                      handleStyle={{
+                        borderColor: "#3498db",
+                        boxShadow: "0 0 0 2px rgba(52, 152, 219, 0.2)",
+                      }}
+                    />
+                    {selectedAlgorithm == 5 && (
+                      <>
+                        <Text strong>
+                          Secondary Threshold: {secondaryThreshold}
+                        </Text>
+                        <Slider
+                          min={0}
+                          max={1}
+                          step={0.01}
+                          value={secondaryThreshold}
+                          onChange={handleSecondaryThresholdChange}
+                          style={{ width: "100%" }}
+                          trackStyle={{ backgroundColor: "#3498db" }}
+                          handleStyle={{
+                            borderColor: "#3498db",
+                            boxShadow: "0 0 0 2px rgba(52, 152, 219, 0.2)",
+                          }}
+                        />
+                        <Text strong>Minimum Percentage: {minPercentage}</Text>
+                        <Slider
+                          min={0}
+                          max={1}
+                          step={0.01}
+                          value={minPercentage}
+                          onChange={handleMinPercentageChange}
+                          style={{ width: "100%" }}
+                          trackStyle={{ backgroundColor: "#3498db" }}
+                          handleStyle={{
+                            borderColor: "#3498db",
+                            boxShadow: "0 0 0 2px rgba(52, 152, 219, 0.2)",
+                          }}
+                        />
+                      </>
+                    )}
+                  </div>
+                )}
+
+                {selectedAlgorithm == 4 && (
+                  <div style={{ marginBottom: "24px" }}>
+                    <Text strong>Criteria Selection</Text>
+                    <Tabs
+                      defaultActiveKey="deltaSum"
+                      onChange={handleCriteriaChange}
+                      type="card"
+                      size="small"
+                      style={{ marginTop: "12px" }}
+                    >
+                      <TabPane tab="Delta" key="delta">
+                        Highest based on delta value
+                      </TabPane>
+                      <TabPane tab="Absolute" key="absolute">
+                        Highest based on absolute value
+                      </TabPane>
+                      <TabPane tab="Delta to Previous Min" key="deltaPrev">
+                        Highest based on delta to the previous local minimum
+                      </TabPane>
+                      <TabPane tab="Sum of Deltas" key="deltaSum">
+                        Highest based on the sum of delta to previous and next
+                        local minima
+                      </TabPane>
+                    </Tabs>
+                  </div>
+                )}
+
+                <div style={{ marginTop: "24px" }}>
+                  <Tag color="#2ecc71">Detected Spikes: {spikes.length}</Tag>
+                </div>
+              </Space>
+            </Col>
+
+            <Col xs={24} sm={24} md={16} lg={18}>
+              <Space direction="vertical" style={{ width: "100%" }}>
+                <Title level={5} style={{ marginBottom: "16px" }}>
+                  <BulbOutlined /> Algorithm Selection
+                </Title>
+                <AlgorithmTabs
+                  algorithms={algorithms}
+                  onSelect={handleAlgorithmSelect}
                 />
-                <span>Minimum Percentage: {minPercentage}</span>
-                <Slider
-                  min={0}
-                  max={1}
-                  step={0.01}
-                  value={minPercentage}
-                  onChange={handleMinPercentageChange}
-                  style={{ width: 200 }}
-                />
-              </>
-            )}
-          </div>
-        )}
-        {selectedAlgorithm == 4 && (
-          <Tabs defaultActiveKey="deltaSum" onChange={handleCriteriaChange}>
-            <TabPane tab="Delta" key="delta">
-              Highest based on delta value
-            </TabPane>
-            <TabPane tab="Absolute" key="absolute">
-              Highest based on absolute value
-            </TabPane>
-            <TabPane tab="Delta to Previous Min" key="deltaPrev">
-              Highest based on delta to the previous local minimum
-            </TabPane>
-            <TabPane tab="Sum of Deltas" key="deltaSum">
-              Highest based on the sum of delta to previous and next local
-              minima
-            </TabPane>
-          </Tabs>
-        )}
-        <Chart data={selectedSeries} spikes={spikes} />
+
+                <Divider style={{ margin: "24px 0" }} />
+
+                <Title level={5} style={{ marginBottom: "16px" }}>
+                  <ThunderboltOutlined /> Visualization
+                </Title>
+                <div
+                  style={{
+                    background: "white",
+                    borderRadius: "12px",
+                    boxShadow: "0 3px 6px rgba(0,0,0,0.06)",
+                    padding: "16px",
+                    height: "400px",
+                  }}
+                >
+                  <Chart data={selectedSeries} spikes={spikes} />
+                </div>
+              </Space>
+            </Col>
+          </Row>
+        </Card>
       </Content>
+
+      <Footer
+        style={{
+          textAlign: "center",
+          background: "white",
+          padding: "12px",
+          boxShadow: "0 -2px 8px rgba(0,0,0,0.03)",
+        }}
+      >
+        Spike Detection Demo ©{new Date().getFullYear()}
+      </Footer>
     </Layout>
   );
 };

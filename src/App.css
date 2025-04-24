@@ -40,3 +40,125 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Custom Styling for the Spike Detection App */
+
+/* Layout */
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Tabs */
+.algorithm-tabs .ant-tabs-tab {
+  transition: all 0.3s ease;
+  border-radius: 8px 8px 0 0 !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.algorithm-tabs .ant-tabs-tab:hover {
+  color: #3498db !important;
+  background: #f8fafc;
+}
+
+.algorithm-tabs .ant-tabs-tab-active {
+  background: #edf2f7 !important;
+  border-bottom-color: #edf2f7 !important;
+}
+
+.algorithm-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #3498db !important;
+  font-weight: 600 !important;
+}
+
+.algorithm-tabs .ant-tabs-nav::before {
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.algorithm-tabs .ant-tabs-content-holder {
+  border: none !important;
+}
+
+/* Chart Styles */
+.chart-container {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Card Styles */
+.card {
+  overflow: hidden;
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Slider */
+.ant-slider-track {
+  background-color: #3498db !important;
+}
+
+.ant-slider-handle {
+  border-color: #3498db !important;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2) !important;
+}
+
+.ant-slider-handle:focus {
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3) !important;
+}
+
+/* Select */
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+  border-color: #3498db !important;
+}
+
+.ant-select-focused:not(.ant-select-disabled).ant-select:not(
+    .ant-select-customize-input
+  )
+  .ant-select-selector {
+  border-color: #3498db !important;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2) !important;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.spike-tag {
+  animation: pulse 2s infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ant-layout-content {
+    padding: 16px !important;
+  }
+
+  .algorithm-tabs .ant-tabs-tab {
+    padding: 8px 12px !important;
+    margin-right: 4px !important;
+  }
+}
