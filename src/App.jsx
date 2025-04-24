@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Layout,
   Select,
@@ -36,6 +36,18 @@ const App = () => {
   const [minPercentage, setMinPercentage] = useState(0.2);
   const [criteria, setCriteria] = useState("absolute");
   const [spikes, setSpikes] = useState([]);
+
+  useEffect(() => {
+    setSpikes(
+      algorithms[selectedAlgorithm].detect({
+        data: selectedSeries,
+        primaryThreshold,
+        secondaryThreshold,
+        minPercentage,
+        criteria,
+      })
+    );
+  }, []);
 
   const handleAlgorithmSelect = (key) => {
     const algorithm = algorithms[key];
