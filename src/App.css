@@ -1,7 +1,5 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
@@ -34,7 +32,7 @@
 }
 
 .card {
-  padding: 2em;
+  /* padding: 2em; */
 }
 
 .read-the-docs {
@@ -132,6 +130,11 @@
   .ant-select-selector {
   border-color: #3498db !important;
   box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2) !important;
+}
+:where(.css-dev-only-do-not-override-vryruh).ant-tabs
+  > .ant-tabs-nav
+  .ant-tabs-nav-wrap {
+  white-space: unset !important;
 }
 
 /* Animations */

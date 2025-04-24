@@ -1,22 +1,16 @@
 export const algorithms = [
   {
-    name: "Delta/Max",
-    description: "Detects spikes based on delta/max criteria.",
-    detect: ({ data, primaryThreshold = 0.2 }) => {
-      const max = Math.max(...data);
-      const thresholdValue = primaryThreshold * max;
-      return data.reduce((spikes, point, index) => {
-        if (index > 0 && point - data[index - 1] > thresholdValue) {
-          spikes.push(index);
-        }
-        return spikes;
-      }, []);
+    name: "Global Maximum",
+    description: "Detects the highest point of all points.",
+    detect: ({ data }) => {
+      const maxIndex = data.indexOf(Math.max(...data));
+      return [maxIndex];
     },
   },
   {
     name: "Local Maxima",
     description:
-      "Detects all local maxima, including the global maximum if it is the first or last point.",
+      "Detects all local maxima, any point that is higher than both the previous and next point.",
     detect: ({ data }) => {
       const spikes = data.reduce((spikes, point, index) => {
         if (
@@ -44,42 +38,9 @@ export const algorithms = [
     },
   },
   {
-    name: "Global Maximum",
-    description: "Detects the global maximum.",
-    detect: ({ data }) => {
-      const maxIndex = data.indexOf(Math.max(...data));
-      return [maxIndex];
-    },
-  },
-  {
-    name: "Delta with Look Forward",
-    description:
-      "Detects spikes based on delta/max criteria and looks for the peak that follows the point of significant change.",
-    detect: ({ data, primaryThreshold = 0.2 }) => {
-      const max = Math.max(...data);
-      const thresholdValue = primaryThreshold * max;
-      const spikes = [];
-      for (let i = 0; i < data.length - 1; i++) {
-        if (data[i + 1] - data[i] > thresholdValue) {
-          let peakIndex = i + 1;
-          for (let j = i + 2; j < data.length; j++) {
-            if (data[j] > data[peakIndex]) {
-              peakIndex = j;
-            } else {
-              break;
-            }
-          }
-          spikes.push(peakIndex);
-          i = peakIndex;
-        }
-      }
-      return spikes;
-    },
-  },
-  {
     name: "Percentage of Local Maxima",
     description:
-      "Marks a maximum number of local maxima based on percentage criteria.",
+      "Marks a maximum 15%  of local maxima based on sorting criteria.",
     detect: ({ data, criteria = "delta" }) => {
       // Find the minimum value in the data
       const dataMin = Math.min(...data);
@@ -149,9 +110,51 @@ export const algorithms = [
     },
   },
   {
+    name: "Delta/Max",
+    description:
+      "Detects spikes based on the percentage of delta to the previous point divided by the max value passing a certain threshold",
+    detect: ({ data, primaryThreshold = 0.2 }) => {
+      const max = Math.max(...data);
+      const thresholdValue = primaryThreshold * max;
+      return data.reduce((spikes, point, index) => {
+        if (index > 0 && point - data[index - 1] > thresholdValue) {
+          spikes.push(index);
+        }
+        return spikes;
+      }, []);
+    },
+  },
+
+  {
+    name: "Delta with Look Forward",
+    description:
+      "Detects spikes based on delta/max criteria and looks for the peak that follows the point of significant change.",
+    detect: ({ data, primaryThreshold = 0.2 }) => {
+      const max = Math.max(...data);
+      const thresholdValue = primaryThreshold * max;
+      const spikes = [];
+      for (let i = 0; i < data.length - 1; i++) {
+        if (data[i + 1] - data[i] > thresholdValue) {
+          let peakIndex = i + 1;
+          for (let j = i + 2; j < data.length; j++) {
+            if (data[j] > data[peakIndex]) {
+              peakIndex = j;
+            } else {
+              break;
+            }
+          }
+          spikes.push(peakIndex);
+          i = peakIndex;
+        }
+      }
+      return spikes;
+    },
+  },
+
+  {
     name: "Delta Forward with Dual Thresholds",
     description:
-      "Detects spikes based on two delta/max criteria and uses a fallback if the first primaryThreshold detects less than a specified percentage of spikes.",
+      "Detects spikes based on two delta/max criteria and uses a fallback if the first primary threshold detects less than a specified percentage of spikes. the primary threshold matches all, while the secondary threshold matches a percentage",
     detect: ({
       data,
       primaryThreshold = 0.2,

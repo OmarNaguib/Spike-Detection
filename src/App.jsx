@@ -150,8 +150,6 @@ const App = () => {
       <Content
         style={{
           padding: "24px",
-          maxWidth: "1200px",
-          margin: "0 auto",
           width: "100%",
         }}
       >
@@ -175,8 +173,8 @@ const App = () => {
                   ))}
                 </Select>
 
-                {(selectedAlgorithm == 0 ||
-                  selectedAlgorithm == 3 ||
+                {(selectedAlgorithm == 3 ||
+                  selectedAlgorithm == 4 ||
                   selectedAlgorithm == 5) && (
                   <div style={{ marginBottom: "24px" }}>
                     <Text strong>Primary Threshold: {primaryThreshold}</Text>
@@ -230,7 +228,7 @@ const App = () => {
                   </div>
                 )}
 
-                {selectedAlgorithm == 4 && (
+                {selectedAlgorithm == 2 && (
                   <div style={{ marginBottom: "24px" }}>
                     <Text strong>Criteria Selection</Text>
                     <Tabs
@@ -241,17 +239,18 @@ const App = () => {
                       style={{ marginTop: "12px" }}
                     >
                       <TabPane tab="Delta" key="delta">
-                        Highest based on delta value
+                        Highest based on delta to previous point
                       </TabPane>
                       <TabPane tab="Absolute" key="absolute">
                         Highest based on absolute value
                       </TabPane>
                       <TabPane tab="Delta to Previous Min" key="deltaPrev">
-                        Highest based on delta to the previous local minimum
+                        Highest based on delta to the previous local minimum to
+                        capture the case of increase over multiple points
                       </TabPane>
                       <TabPane tab="Sum of Deltas" key="deltaSum">
                         Highest based on the sum of delta to previous and next
-                        local minima
+                        local minima to capture more of the visual aspect
                       </TabPane>
                     </Tabs>
                   </div>

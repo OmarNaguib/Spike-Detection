@@ -153,7 +153,7 @@ const Chart = ({ data, spikes }) => {
   return (
     <ReactEcharts
       option={option}
-      style={{ height: "100%", width: "100%" }}
+      style={{ height: "400px", width: "100%" }}
       className="chart-container"
     />
   );
