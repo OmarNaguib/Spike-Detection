@@ -10,17 +10,19 @@ const AlgorithmTabs = ({ algorithms, onSelect }) => {
       defaultActiveKey="0"
       onChange={onSelect}
       type="card"
-      size="large"
+      size="small"
       className="algorithm-tabs"
       tabBarStyle={{
-        marginBottom: "16px",
+        marginBottom: "12px",
       }}
-      tabBarGutter={8}
+      tabBarGutter={4}
     >
       {algorithms.map((algo, index) => (
         <TabPane
           tab={
-            <span style={{ padding: "0 8px", fontWeight: 500 }}>
+            <span
+              style={{ padding: "0 4px", fontWeight: 500, fontSize: "13px" }}
+            >
               {algo.name}
             </span>
           }
@@ -32,9 +34,17 @@ const AlgorithmTabs = ({ algorithms, onSelect }) => {
               background: "#f8fafc",
               borderRadius: "8px",
               boxShadow: "inset 0 2px 4px rgba(0,0,0,0.04)",
+              padding: "8px",
             }}
           >
-            <Paragraph style={{ margin: 0, padding: "8px", color: "#475569" }}>
+            <Paragraph
+              style={{
+                margin: 0,
+                padding: "4px",
+                color: "#475569",
+                fontSize: "13px",
+              }}
+            >
               {algo.description}
             </Paragraph>
           </Card>

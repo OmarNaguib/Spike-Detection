@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Layout,
   Select,
@@ -128,20 +128,21 @@ const App = () => {
       <Header
         style={{
           background: "white",
-          padding: "0 24px",
+          padding: "0 16px",
           boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
           position: "sticky",
           top: 0,
           zIndex: 1,
           display: "flex",
           alignItems: "center",
+          height: "56px",
         }}
       >
         <div style={{ display: "flex", alignItems: "center" }}>
           <LineChartOutlined
-            style={{ fontSize: "24px", color: "#3498db", marginRight: "12px" }}
+            style={{ fontSize: "20px", color: "#3498db", marginRight: "8px" }}
           />
-          <Title level={3} style={{ margin: 0, color: "#2c3e50" }}>
+          <Title level={4} style={{ margin: 0, color: "#2c3e50" }}>
             Spike Detection <Tag color="#3498db">Demo</Tag>
           </Title>
         </div>
@@ -149,21 +150,31 @@ const App = () => {
 
       <Content
         style={{
-          padding: "24px",
+          padding: "16px",
           width: "100%",
         }}
       >
-        <Card className="card">
-          <Row gutter={[24, 24]}>
+        <Card className="card" style={{ padding: "12px" }}>
+          <Row gutter={[12, 12]}>
             <Col xs={24} sm={24} md={8} lg={6}>
-              <Space direction="vertical" style={{ width: "100%" }}>
-                <Title level={5} style={{ marginBottom: "16px" }}>
+              <Space
+                direction="vertical"
+                size="small"
+                style={{ width: "100%" }}
+              >
+                <Title
+                  level={5}
+                  style={{
+                    marginBottom: "8px",
+                    fontSize: "15px",
+                  }}
+                >
                   <SettingOutlined /> Configuration
                 </Title>
                 <Text strong>Data Series</Text>
                 <Select
                   defaultValue={dataSeries[0].name}
-                  style={{ width: "100%", marginBottom: "24px" }}
+                  style={{ width: "100%", marginBottom: "16px" }}
                   onChange={handleSeriesChange}
                 >
                   {dataSeries.map((series) => (
@@ -263,8 +274,19 @@ const App = () => {
             </Col>
 
             <Col xs={24} sm={24} md={16} lg={18}>
-              <Space direction="vertical" style={{ width: "100%" }}>
-                <Title level={5} style={{ marginBottom: "16px" }}>
+              <Space
+                direction="vertical"
+                size="small"
+                style={{ width: "100%" }}
+              >
+                <Title
+                  level={5}
+                  style={{
+                    marginBottom: "8px",
+                    marginTop: "4px",
+                    fontSize: "15px",
+                  }}
+                >
                   <BulbOutlined /> Algorithm Selection
                 </Title>
                 <AlgorithmTabs
@@ -272,9 +294,16 @@ const App = () => {
                   onSelect={handleAlgorithmSelect}
                 />
 
-                <Divider style={{ margin: "24px 0" }} />
+                <Divider style={{ margin: "12px 0" }} />
 
-                <Title level={5} style={{ marginBottom: "16px" }}>
+                <Title
+                  level={5}
+                  style={{
+                    marginBottom: "8px",
+                    marginTop: "4px",
+                    fontSize: "15px",
+                  }}
+                >
                   <ThunderboltOutlined /> Visualization
                 </Title>
                 <div
@@ -282,8 +311,8 @@ const App = () => {
                     background: "white",
                     borderRadius: "12px",
                     boxShadow: "0 3px 6px rgba(0,0,0,0.06)",
-                    padding: "16px",
-                    height: "400px",
+                    padding: "0px",
+                    height: "420px",
                   }}
                 >
                   <Chart data={selectedSeries} spikes={spikes} />
@@ -298,8 +327,9 @@ const App = () => {
         style={{
           textAlign: "center",
           background: "white",
-          padding: "12px",
+          padding: "8px",
           boxShadow: "0 -2px 8px rgba(0,0,0,0.03)",
+          fontSize: "12px",
         }}
       >
         Spike Detection Demo ©{new Date().getFullYear()}
